@@ -34,14 +34,16 @@ class Lectura(object):
         self.w = distancia ** -2
 
         self.coef = {}
-        self.coef[self.origen] = -1
-        self.coef[self.destino] = 1
+        self.coef[self.origen] = 1
+        self.coef[self.destino] = -1
 
         #self.angulo = angulo * np.pi / 180.
         self.hi = hi
         self.hp = hp
         self.type = 'Geometrica'
         self.distancia = distancia
+        self.hilos = [medio,sup,inferior]
+        self.medio = medio
 
         return self
 
@@ -85,8 +87,8 @@ class Lectura(object):
 
         if self.type == 'Geometrica':
             promedio = sum(self.hilos[1:])/2
-            if abs(self.hilos[0]-self.promedio) > tol:
-                raise ValuError('Lectura fuera de tolerancia')
+            if abs(self.hilos[0]-promedio) > eq_tol:
+                raise ValueError(f'Lectura fuera de tolerancia {abs(self.hilos[0]-promedio)}')
 
             return self.medio - self.distancia * eq_col_error #sin = tan = ang
 
